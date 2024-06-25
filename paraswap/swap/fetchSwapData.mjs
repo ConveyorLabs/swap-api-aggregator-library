@@ -11,7 +11,7 @@ export async function fetchSwapData(swapData) {
   });
 
   const baseUrl = `https://api.paraswap.io/transactions/${swapData.chainId}`;
-  const url = `${baseUrl}?ignoreChecks=true&version6`;
+  const url = `${baseUrl}?ignoreChecks=true`;
 
   const response = await fetch(url, {
     method: "POST",
