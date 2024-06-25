@@ -34,8 +34,6 @@ export async function buildQueryParams(swapData) {
     slippage, // slippage is in %
     includeGas: "true",
     from: recipient,
-    protocols: includeDEXS,
-    excludeProtocols: excludeDEXS,
     origin: recipient,
     disableEstimate: "true",
   });
@@ -46,9 +44,6 @@ export async function buildQueryParams(swapData) {
     params.append("referrer", "0x2f37bC8900EB1176C689c63c5E781B96DCC0C48E");
   }
 
-  // if (includeDEXS) {
-  //   params.append("includeProtocols", includeDEXS);
-  // }
   if (excludeDEXS) {
     params.append("excludeProtocols", excludeDEXS);
   }
