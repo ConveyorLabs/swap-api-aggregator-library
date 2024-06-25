@@ -1,16 +1,5 @@
 import { fetchQuoteData } from "../quote/fetchQuoteData.mjs";
-
-async function buildQueryParams(swapData, pathId) {
-  const { recipient } = swapData;
-
-  const payload = {
-    userAddr: recipient,
-    pathId,
-    simulate: true,
-  };
-
-  return JSON.stringify(payload);
-}
+import { buildQueryParams } from "./buildQueryParams.mjs";
 
 export async function fetchSwapData(swapData) {
   // Fetch the quote data to retrieve the pathId

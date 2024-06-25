@@ -51,14 +51,44 @@ export async function buildQueryParams(swapData) {
     ],
     userAddr: recipient,
     slippageLimitPercent: Number(slippage),
-    sourceBlacklist: excludeDEXS ? excludeDEXS.split(",") : [],
     disableRFQs: false,
     compact: false,
   };
 
+  if (includeDEXS) {
+    params.sourceWhitelist = includeDEXS.split(",").map((item) => item.trim());
+  }
+
+  if (excludeDEXS) {
+    params.sourceBlacklist = excludeDEXS.split(",").map((item) => item.trim());
+  }
+
+  if (
+    fromTokenAddress.toLowerCase() ===
+      "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" ||
+    fromTokenAddress.toLowerCase() === zeroAddress ||
+    toTokenAddress.toLowerCase() ===
+      "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" ||
+    toTokenAddress.toLowerCase() === zeroAddress
+  ) {
+    if (!params.sourceWhitelist) {
+      params.sourceWhitelist = [];
+    }
+    if (!params.sourceWhitelist.includes("Wrapped Ether")) {
+      params.sourceWhitelist.push("Wrapped Ether");
+    }
+    if (params.sourceBlacklist) {
+      params.sourceBlacklist = params.sourceBlacklist.filter(
+        (item) => item !== "Wrapped Ether"
+      );
+    }
+  }
+
   if (!isAuthenticated) {
     params.referralCode = "3303183541";
   }
+
+  console.log(params);
 
   return params;
 }
