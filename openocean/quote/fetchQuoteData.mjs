@@ -1,3 +1,4 @@
+import { openOceanApiKey } from "../../../constants/apiKeys.mjs";
 import { chainIdToName } from "../constants.mjs";
 import { buildQueryParams } from "./buildQueryParams.mjs";
 
@@ -8,7 +9,7 @@ export async function fetchQuoteData(swapData) {
 
   const response = await fetch(`${baseUrl}?${params}`, {
     headers: {
-      apikey: "aZt04VmQhipm2TsCMNhp2xQ5aHivpMOv",
+      apikey: openOceanApiKey,
     },
   });
 
