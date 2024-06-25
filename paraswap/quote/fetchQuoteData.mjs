@@ -5,7 +5,7 @@ import { buildQueryParams } from "./buildQueryParams.mjs";
 export async function fetchQuoteData(swapData) {
   const baseUrl = "https://api.paraswap.io/prices";
   const params = await buildQueryParams(swapData);
-  const response = await fetch(`${baseUrl}?${params}&version6`);
+  const response = await fetch(`${baseUrl}?${params}`);
   // console.log(`${baseUrl}?${params}`);
 
   if (!response.ok) {
