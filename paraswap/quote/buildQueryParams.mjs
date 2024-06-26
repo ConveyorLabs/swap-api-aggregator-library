@@ -13,6 +13,7 @@ export async function buildQueryParams(swapData) {
     toTokenDecimals,
     includeProtocols = [],
     excludeProtocols = [],
+    rpcUrl,
   } = swapData;
 
   const tokenDecimals = await fetchTokenDecimals({
@@ -21,6 +22,7 @@ export async function buildQueryParams(swapData) {
     chainId,
     fromTokenDecimals,
     toTokenDecimals,
+    rpcUrl,
   });
 
   const includeProtocolsArray = Array.isArray(includeProtocols)

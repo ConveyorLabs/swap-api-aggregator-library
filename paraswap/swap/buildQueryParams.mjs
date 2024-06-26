@@ -1,4 +1,7 @@
-import { platformReferralWallet } from "../../../constants/referrer.mjs";
+import {
+  platformFeeBps,
+  platformReferralWallet,
+} from "../../../constants/referrer.mjs";
 import { fetchTokenDecimals } from "../../../lib/fetchTokenDecimals.mjs";
 
 export async function buildQueryParams(swapData) {
@@ -11,8 +14,11 @@ export async function buildQueryParams(swapData) {
     recipient,
     fromTokenDecimals,
     toTokenDecimals,
-    isAuthenticated,
     priceRoute,
+    rpcUrl,
+    plan,
+    partnerReferralWallet,
+    partnerReferralFeeBps,
   } = swapData;
 
   const tokenDecimals = await fetchTokenDecimals({
@@ -21,6 +27,7 @@ export async function buildQueryParams(swapData) {
     chainId,
     fromTokenDecimals,
     toTokenDecimals,
+    rpcUrl,
   });
 
   const params = {
@@ -31,14 +38,25 @@ export async function buildQueryParams(swapData) {
     srcAmount: amountIn.toString(),
     slippage: (slippage * 100).toString(), // Slippage in basis points
     userAddress: recipient,
+    partner: "Conveyor",
+    takeSurplus: true,
     priceRoute,
   };
 
-  if (!isAuthenticated) {
-    params.partner = "Conveyor";
-    params.takeSurplus = true;
-    params.partnerFeeBps = "20";
+  if (plan === "/basic") {
+    params.partnerFeeBps = platformFeeBps;
     params.partnerAddress = platformReferralWallet;
+    console.log("platformReferralWallet: ", params.partnerAddress);
+    console.log("platform fee converted", params.partnerFeeBps);
+  }
+
+  if (plan === "/premium") {
+    if (partnerReferralWallet || partnerReferralFeeBps) {
+      params.partnerFeeBps = partnerReferralFeeBps;
+      params.partnerAddress = partnerReferralWallet;
+      console.log("partnerReferralWallet: ", params.partnerAddress);
+      console.log("partner fee converted", params.partnerFeeBps);
+    }
   }
 
   return params;
