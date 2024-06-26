@@ -9,13 +9,9 @@ export async function fetchSwapData(swapData) {
     throw new Error("Failed to fetch pathId from Odos quote");
   }
 
-  console.log(`quote ID: ${quoteData.pathId}`);
-
   const pathId = quoteData.pathId;
   const baseUrl = `https://api.odos.xyz/sor/assemble`;
   const params = await buildQueryParams(swapData, pathId);
-
-  console.log(`Request Payload: ${params}`); // Log the payload being sent
 
   const response = await fetch(baseUrl, {
     method: "POST",
@@ -38,8 +34,6 @@ export async function fetchSwapData(swapData) {
 
   const data = await response.json();
   data.fromTokenAddress = swapData.fromTokenAddress;
-
-  console.log("Odos Swap Data Response:", data);
 
   return data;
 }

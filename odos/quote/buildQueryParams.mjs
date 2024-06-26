@@ -1,5 +1,6 @@
 import { zeroAddress } from "viem";
 import { constructQuery } from "../constants.mjs";
+import { platformOdosReferralCode } from "../../../constants/referrer.mjs";
 
 export async function buildQueryParams(swapData) {
   const {
@@ -11,7 +12,8 @@ export async function buildQueryParams(swapData) {
     recipient,
     includeProtocols = [],
     excludeProtocols = [],
-    isAuthenticated,
+    plan,
+    partnerOdosReferralCode,
   } = swapData;
 
   const includeProtocolsArray = Array.isArray(includeProtocols)
@@ -84,11 +86,16 @@ export async function buildQueryParams(swapData) {
     }
   }
 
-  if (!isAuthenticated) {
-    params.referralCode = "3303183541";
+  if (plan == "/basic") {
+    params.referralCode = platformOdosReferralCode;
+    console.log(
+      `Odos fee implmented for basic plan. Referral code: ${params.referralCode}`
+    );
   }
 
-  console.log(params);
+  if (plan == "/premium") {
+    params.referralCode = partnerOdosReferralCode;
+  }
 
   return params;
 }

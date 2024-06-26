@@ -3,7 +3,7 @@
 import { constructQuery, tokenAddressToNativeToken } from "../constants.mjs";
 import fetchGasPrice from "../../../lib/fetchGasPrice.mjs";
 import { fetchTokenDecimals } from "../../../lib/fetchTokenDecimals.mjs";
-import { referralWallet } from "../../../constants/referrer.mjs";
+import { platformReferralWallet } from "../../../constants/referrer.mjs";
 
 export async function buildQueryParams(swapData) {
   const {
@@ -17,7 +17,8 @@ export async function buildQueryParams(swapData) {
     recipient,
     includeProtocols = [],
     excludeProtocols = [],
-    isAuthorized,
+    platformReferralWallet,
+    referralFeeBps,
   } = swapData;
 
   const inTokenAddress =
@@ -69,7 +70,7 @@ export async function buildQueryParams(swapData) {
   }
 
   if (!isAuthorized) {
-    params.append("referrer", referralWallet);
+    params.append("referrer", platformReferralWallet);
     params.append("referrerFee", "0.2");
   }
 

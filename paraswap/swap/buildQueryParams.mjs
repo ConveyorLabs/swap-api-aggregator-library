@@ -1,4 +1,4 @@
-import { referralWallet } from "../../../constants/referrer.mjs";
+import { platformReferralWallet } from "../../../constants/referrer.mjs";
 import { fetchTokenDecimals } from "../../../lib/fetchTokenDecimals.mjs";
 
 export async function buildQueryParams(swapData) {
@@ -38,7 +38,7 @@ export async function buildQueryParams(swapData) {
     params.partner = "Conveyor";
     params.takeSurplus = true;
     params.partnerFeeBps = "20";
-    params.partnerAddress = referralWallet;
+    params.partnerAddress = platformReferralWallet;
   }
 
   return params;
