@@ -11,7 +11,6 @@ export async function fetchSwapData(swapData) {
   const baseUrl = `https://open-api.openocean.finance/v3/${chainName}/swap_quote`;
   const params = await buildQueryParams(swapData);
   const url = `${baseUrl}?${params}`;
-  console.log("Request URL:", url);
 
   const response = await fetch(url, {
     headers: {

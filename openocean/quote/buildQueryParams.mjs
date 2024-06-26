@@ -15,6 +15,7 @@ export async function buildQueryParams(swapData) {
     excludeProtocols = [],
     fromTokenDecimals,
     toTokenDecimals,
+    rpcUrl,
   } = swapData;
 
   const inTokenAddress =
@@ -39,6 +40,7 @@ export async function buildQueryParams(swapData) {
     chainId,
     fromTokenDecimals,
     toTokenDecimals,
+    rpcUrl,
   });
 
   const gasPrice = await fetchGasPrice(chainId);

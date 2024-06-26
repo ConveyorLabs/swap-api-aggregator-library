@@ -3,7 +3,10 @@
 import { constructQuery, tokenAddressToNativeToken } from "../constants.mjs";
 import fetchGasPrice from "../../../lib/fetchGasPrice.mjs";
 import { fetchTokenDecimals } from "../../../lib/fetchTokenDecimals.mjs";
-import { platformReferralWallet } from "../../../constants/referrer.mjs";
+import {
+  platformFeeBps,
+  platformReferralWallet,
+} from "../../../constants/referrer.mjs";
 
 export async function buildQueryParams(swapData) {
   const {
@@ -17,8 +20,10 @@ export async function buildQueryParams(swapData) {
     recipient,
     includeProtocols = [],
     excludeProtocols = [],
-    platformReferralWallet,
-    referralFeeBps,
+    rpcUrl,
+    plan,
+    partnerReferralWallet,
+    partnerReferralFeeBps,
   } = swapData;
 
   const inTokenAddress =
@@ -43,9 +48,10 @@ export async function buildQueryParams(swapData) {
     chainId,
     fromTokenDecimals,
     toTokenDecimals,
+    rpcUrl,
   });
 
-  const gasPrice = await fetchGasPrice(chainId);
+  const gasPrice = await fetchGasPrice(chainId, rpcUrl);
 
   const { includeDEXS, excludeDEXS } = constructQuery(
     chainId,
@@ -69,9 +75,16 @@ export async function buildQueryParams(swapData) {
     params.append("disableDexIds", excludeDEXS);
   }
 
-  if (!isAuthorized) {
+  if (plan === "/basic") {
     params.append("referrer", platformReferralWallet);
-    params.append("referrerFee", "0.2");
+    params.append("referrerFee", (platformFeeBps / 100).toString());
+  }
+
+  if (plan === "/premium") {
+    if (partnerReferralWallet || partnerReferralFeeBps) {
+      params.append("referrer", partnerReferralWallet);
+      params.append("referrerFee", (partnerReferralFeeBps / 100).toString());
+    }
   }
 
   return params;
