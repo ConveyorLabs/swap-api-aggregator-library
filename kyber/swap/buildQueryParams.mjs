@@ -1,3 +1,7 @@
+import {
+  platformFeeBps,
+  platformReferralWallet,
+} from "../../../constants/referrer.mjs";
 import { constructQuery } from "../constants.mjs";
 export async function buildQueryParams(swapData) {
   const {
@@ -9,7 +13,9 @@ export async function buildQueryParams(swapData) {
     recipient,
     includeProtocols = [],
     excludeProtocols = [],
-    isAuthenticated,
+    plan,
+    partnerReferralWallet,
+    partnerReferralFeeBps,
   } = swapData;
 
   const includeProtocolsArray = Array.isArray(includeProtocols)
@@ -33,23 +39,32 @@ export async function buildQueryParams(swapData) {
     saveGas: "0",
     gasInclude: "1",
     slippageTolerance: slippage * 100, //fee is in bips
-    includedSources: includeDEXS,
-    excludedSources: excludeDEXS,
     source: "Conveyor",
   });
 
   if (includeDEXS) {
-    params.append("includeDEXS", includeDEXS);
+    params.append("includedSources", includeDEXS);
   }
   if (excludeDEXS) {
-    params.append("excludeDEXS", excludeDEXS);
+    params.append("excludedSources", excludeDEXS);
   }
 
-  if (!isAuthenticated) {
-    params.append("feeAmount", 20);
+  if (plan === "/basic") {
+    params.append("feeAmount", platformFeeBps);
     params.append("chargeFeeBy", "currency_in");
-    params.append("feeReceiver", "0x2f37bC8900EB1176C689c63c5E781B96DCC0C48E");
+    params.append("feeReceiver", platformReferralWallet);
     params.append("isInBps", true);
+    console.log(params);
+  }
+
+  if (plan === "/premium") {
+    if (partnerReferralWallet || partnerReferralFeeBps) {
+      params.append("feeAmount", partnerReferralFeeBps);
+      params.append("chargeFeeBy", "currency_in");
+      params.append("feeReceiver", partnerReferralWallet);
+      params.append("isInBps", true);
+      console.log(params);
+    }
   }
 
   return params;

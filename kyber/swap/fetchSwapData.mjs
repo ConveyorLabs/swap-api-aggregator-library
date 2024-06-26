@@ -1,5 +1,5 @@
 import { chainToId } from "../constants.mjs";
-import { buildQueryParams } from "./buildQueryParameters.mjs";
+import { buildQueryParams } from "./buildQueryParams.mjs";
 
 export async function fetchSwapData(swapData) {
   const baseUrl = `https://aggregator-api.kyberswap.com/${
