@@ -1,3 +1,7 @@
+import {
+  platformFeeBps,
+  platformReferralWallet,
+} from "../../../constants/referrer.mjs";
 import { constructQuery } from "../constants.mjs";
 
 export async function buildQueryParams(swapData) {
@@ -10,11 +14,10 @@ export async function buildQueryParams(swapData) {
     recipient,
     includeProtocols = [],
     excludeProtocols = [],
+    plan,
+    partnerReferralWallet,
+    partnerReferralFeeBps,
   } = swapData;
-
-  // if (slippage > 100) {
-  //   throw new Error("Slippage must be less than or equal to 100.");
-  // }
 
   const includeProtocolsArray = Array.isArray(includeProtocols)
     ? includeProtocols
@@ -38,12 +41,22 @@ export async function buildQueryParams(swapData) {
     skipValidation: "true",
   });
 
-  // if (includeDEXS) {
-  //   params.append("includedSources", includeDEXS);
-  // }
   if (excludeDEXS) {
     params.append("excludedSources", excludeDEXS);
   }
 
+  if (plan === "/basic") {
+    params.append("feeRecipient", platformReferralWallet);
+    params.append("buyTokenPercentageFee", platformFeeBps / 100);
+    params.append("feeRecipientTradeSurplus", platformReferralWallet);
+  }
+
+  if (plan === "/premium") {
+    if (partnerReferralWallet || partnerReferralFeeBps) {
+      params.append("feeRecipient", partnerReferralWallet);
+      params.append("buyTokenPercentageFee", partnerReferralFeeBps / 100);
+      params.append("feeRecipientTradeSurplus", partnerReferralWallet);
+    }
+  }
   return params;
 }
