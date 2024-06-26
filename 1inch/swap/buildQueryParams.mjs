@@ -51,14 +51,12 @@ export async function buildQueryParams(swapData) {
   if (plan === "/basic") {
     params.append("fee", platformFeeBps / 100);
     params.append("referrer", platformReferralWallet);
-    console.log(params);
   }
 
   if (plan === "/premium") {
     if (partnerReferralWallet || partnerReferralFeeBps) {
       params.append("fee", partnerReferralFeeBps / 100);
       params.append("referrer", partnerReferralWallet);
-      console.log(params);
     }
   }
 
