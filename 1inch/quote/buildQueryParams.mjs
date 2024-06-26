@@ -1,3 +1,4 @@
+import { platformFeeBps } from "../../../constants/referrer.mjs";
 import { constructQuery } from "../constants.mjs";
 
 export async function buildQueryParams(swapData) {
@@ -9,7 +10,9 @@ export async function buildQueryParams(swapData) {
     slippage,
     includeProtocols = [],
     excludeProtocols = [],
-    isAuthenticated,
+    plan,
+    partnerReferralWallet,
+    partnerReferralFeeBps,
   } = swapData;
 
   const includeProtocolsArray = Array.isArray(includeProtocols)
@@ -33,12 +36,20 @@ export async function buildQueryParams(swapData) {
     includeGas: "true",
   });
 
-  if (!isAuthenticated) {
-    params.append("fee", 0.2);
-  }
-
   if (excludeDEXS) {
     params.append("excludeProtocols", excludeDEXS);
+  }
+
+  if (plan === "/basic") {
+    params.append("fee", platformFeeBps / 100);
+    console.log(params);
+  }
+
+  if (plan === "/premium") {
+    if (partnerReferralWallet || partnerReferralFeeBps) {
+      params.append("fee", partnerReferralFeeBps / 100);
+      console.log(params);
+    }
   }
 
   return params;

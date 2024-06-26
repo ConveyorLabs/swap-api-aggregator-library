@@ -1,3 +1,7 @@
+import {
+  platformFeeBps,
+  platformReferralWallet,
+} from "../../../constants/referrer.mjs";
 import { constructQuery } from "../constants.mjs";
 
 export async function buildQueryParams(swapData) {
@@ -10,7 +14,9 @@ export async function buildQueryParams(swapData) {
     recipient,
     includeProtocols = [],
     excludeProtocols = [],
-    isAuthenticated,
+    plan,
+    partnerReferralWallet,
+    partnerReferralFeeBps,
   } = swapData;
 
   const includeProtocolsArray = Array.isArray(includeProtocols)
@@ -20,7 +26,7 @@ export async function buildQueryParams(swapData) {
     ? excludeProtocols
     : excludeProtocols.split(",");
 
-  const { includeDEXS, excludeDEXS } = constructQuery(
+  const { excludeDEXS } = constructQuery(
     chainId,
     includeProtocolsArray.join(","),
     excludeProtocolsArray.join(",")
@@ -38,14 +44,22 @@ export async function buildQueryParams(swapData) {
     disableEstimate: "true",
   });
 
-  // Add additional params if not authenticated
-  if (!isAuthenticated) {
-    params.append("fee", 0.2);
-    params.append("referrer", "0x2f37bC8900EB1176C689c63c5E781B96DCC0C48E");
-  }
-
   if (excludeDEXS) {
     params.append("excludeProtocols", excludeDEXS);
+  }
+
+  if (plan === "/basic") {
+    params.append("fee", platformFeeBps / 100);
+    params.append("referrer", platformReferralWallet);
+    console.log(params);
+  }
+
+  if (plan === "/premium") {
+    if (partnerReferralWallet || partnerReferralFeeBps) {
+      params.append("fee", partnerReferralFeeBps / 100);
+      params.append("referrer", partnerReferralWallet);
+      console.log(params);
+    }
   }
 
   return params;
