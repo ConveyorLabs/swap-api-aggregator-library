@@ -46,16 +46,12 @@ export async function buildQueryParams(swapData) {
   if (plan === "basic") {
     params.partnerFeeBps = platformFeeBps;
     params.partnerAddress = platformReferralWallet;
-    console.log("platformReferralWallet: ", params.partnerAddress);
-    console.log("platform fee converted", params.partnerFeeBps);
   }
 
   if (plan === "premium") {
     if (partnerReferralWallet || partnerReferralFeeBps) {
       params.partnerFeeBps = partnerReferralFeeBps;
       params.partnerAddress = partnerReferralWallet;
-      console.log("partnerReferralWallet: ", params.partnerAddress);
-      console.log("partner fee converted", params.partnerFeeBps);
     }
   }
 
