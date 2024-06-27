@@ -40,12 +40,12 @@ export async function buildQueryParams(swapData) {
     params.append("excludeProtocols", excludeDEXS);
   }
 
-  if (plan === "/basic") {
+  if (plan === "basic") {
     params.append("fee", platformFeeBps / 100);
     console.log(params);
   }
 
-  if (plan === "/premium") {
+  if (plan === "premium") {
     if (partnerReferralWallet || partnerReferralFeeBps) {
       params.append("fee", partnerReferralFeeBps / 100);
       console.log(params);

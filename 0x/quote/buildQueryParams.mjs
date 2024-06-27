@@ -45,13 +45,13 @@ export async function buildQueryParams(swapData) {
     params.append("excludedSources", excludeDEXS);
   }
 
-  if (plan === "/basic") {
+  if (plan === "basic") {
     params.append("feeRecipient", platformReferralWallet);
     params.append("buyTokenPercentageFee", platformFeeBps / 100);
     params.append("feeRecipientTradeSurplus", platformReferralWallet);
   }
 
-  if (plan === "/premium") {
+  if (plan === "premium") {
     if (partnerReferralWallet || partnerReferralFeeBps) {
       params.append("feeRecipient", partnerReferralWallet);
       params.append("buyTokenPercentageFee", partnerReferralFeeBps / 100);

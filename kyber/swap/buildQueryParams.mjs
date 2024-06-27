@@ -49,7 +49,7 @@ export async function buildQueryParams(swapData) {
     params.append("excludedSources", excludeDEXS);
   }
 
-  if (plan === "/basic") {
+  if (plan === "basic") {
     params.append("feeAmount", platformFeeBps);
     params.append("chargeFeeBy", "currency_in");
     params.append("feeReceiver", platformReferralWallet);
@@ -57,7 +57,7 @@ export async function buildQueryParams(swapData) {
     console.log(params);
   }
 
-  if (plan === "/premium") {
+  if (plan === "premium") {
     if (partnerReferralWallet || partnerReferralFeeBps) {
       params.append("feeAmount", partnerReferralFeeBps);
       params.append("chargeFeeBy", "currency_in");

@@ -75,12 +75,12 @@ export async function buildQueryParams(swapData) {
     params.append("disableDexIds", excludeDEXS);
   }
 
-  if (plan === "/basic") {
+  if (plan === "basic") {
     params.append("referrer", platformReferralWallet);
     params.append("referrerFee", (platformFeeBps / 100).toString());
   }
 
-  if (plan === "/premium") {
+  if (plan === "premium") {
     if (partnerReferralWallet || partnerReferralFeeBps) {
       params.append("referrer", partnerReferralWallet);
       params.append("referrerFee", (partnerReferralFeeBps / 100).toString());
