@@ -1,22 +1,7 @@
-import { fetchQuoteData as aggregatorFetchQuoteData } from "./quote/fetchQuoteData.mjs";
-import { formatQuoteData } from "./quote/formatQuoteData.mjs";
-import { fetchSwapData as aggregatorFetchSwapData } from "./swap/fetchSwapData.mjs";
-import { formatSwapData } from "./swap/formatSwapData.mjs";
+import { createAdapter } from "../common/adapterTemplate.mjs";
+import * as quoteFunctions from "./quote/index.mjs";
+import * as swapFunctions from "./swap/index.mjs";
 
-export const name = "Kyber";
+const adapter = createAdapter("Kyber", quoteFunctions, swapFunctions);
 
-export async function fetchQuoteData(requestBody) {
-  const data = await aggregatorFetchQuoteData(requestBody);
-  return {
-    ...formatQuoteData(data, requestBody, name),
-    aggregator: name,
-  };
-}
-
-export async function fetchSwapData(requestBody) {
-  const data = await aggregatorFetchSwapData(requestBody);
-  return {
-    ...formatSwapData(data, requestBody),
-    aggregator: name,
-  };
-}
+export default adapter;

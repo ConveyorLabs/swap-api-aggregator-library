@@ -1,9 +1,9 @@
-import * as paraswap from "./paraswap/index.mjs";
-import * as kyber from "./kyber/index.mjs";
-import * as oneInch from "./1inch/index.mjs";
-import * as zeroX from "./0x/index.mjs";
-import * as odos from "./odos/index.mjs";
-import * as openocean from "./openocean/index.mjs";
+import paraswap from "./paraswap/index.mjs";
+import kyber from "./kyber/index.mjs";
+import oneInch from "./1inch/index.mjs";
+import zeroX from "./0x/index.mjs";
+import odos from "./odos/index.mjs";
+import openocean from "./openocean/index.mjs";
 
 export const allAdapters = {
   paraswap,
