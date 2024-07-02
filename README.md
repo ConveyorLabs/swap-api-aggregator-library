@@ -309,8 +309,4 @@ All tests completed successfully
 - Follow the existing code style and error handling patterns for consistency.
 - If your aggregator requires specific configuration or setup, document it clearly in a README file within your adapter folder.
 
-For any questions or issues during integration, please contact the maintainers of this project.
-
-```
-
-```
+For any questions or issues during integration, please submit an issue.
