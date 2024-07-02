@@ -1,5 +1,16 @@
-import { buildQueryParams as quoteBuildQueryParams } from "../quote/buildQueryParams.mjs";
-
 export async function buildQueryParams(swapData) {
-  return quoteBuildQueryParams(swapData, false);
+  const {
+    quotes,
+    recipient
+  } = swapData;
+
+  const bestQuote = quotes?.[0];
+  const params = {
+    transactionData: bestQuote?.transactionData,
+    nativeValue: bestQuote?.nativeValue,
+    account: recipient,
+    receiver: recipient,
+    tradeType: bestQuote.tradeType
+  }
+  return params;
 }

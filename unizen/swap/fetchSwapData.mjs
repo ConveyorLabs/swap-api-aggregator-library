@@ -1,11 +1,18 @@
 import { buildQueryParams } from "./buildQueryParams.mjs";
+import { fetchQuoteData } from "../quote/fetchQuoteData.mjs";
 
 export async function fetchSwapData(swapData) {
-  const baseUrl = `https://api.1inch.dev/swap/v6.0/${swapData.chainId}/swap`;
-  const params = await buildQueryParams(swapData);
-  const response = await fetch(`${baseUrl}?${params}`, {
+  const quoteData = await fetchQuoteData(swapData);
+  const body = await buildQueryParams({
+    ...swapData,
+    quotes: quoteData,
+  });
+
+  const baseUrl = `https://api.zcx.com/trade/v1/${swapData.chainId}/swap`;
+  const response = await fetch(`${baseUrl}`, {
+    body,
     headers: {
-      Authorization: `Bearer ${swapData.oneInchApiKey}`,
+      Authorization: `Bearer ${swapData.unizenApiKey}`,
     },
   });
   if (!response.ok) {

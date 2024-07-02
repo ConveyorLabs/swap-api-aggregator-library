@@ -1,4 +1,3 @@
-import { platformFeeBps } from "../../../constants/referrer.mjs";
 import { constructQuery } from "../constants.mjs";
 
 export async function buildQueryParams(swapData) {
