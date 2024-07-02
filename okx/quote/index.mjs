@@ -1,0 +1,1 @@
+export { fetchQuoteData } from "./fetchQuoteData.mjs";
