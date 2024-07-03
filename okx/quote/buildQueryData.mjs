@@ -1,8 +1,31 @@
-const https = require('https');
-const crypto = require('crypto');
-const querystring = require('querystring');
+import { constructQuery } from '../constants.mjs';
 
 export async function buildQueryData(swapData) {
+    const {
+        chainId,
+        amountIn,
+        fromTokenAddress,
+        toTokenAddress,
+        slippage,
+        includeProtocols = [],
+        excludeProtocols = [],
+        plan,
+        partnerReferralWallet,
+        partnerReferralFeeBps
+    } = swapData;
+
+    const includeProtocolsArray = Array.isArray(includeProtocols)
+        ? includeProtocols
+        : includeProtocols.split(",");
+    const excludeProtocolsArray = Array.isArray(excludeProtocols)
+        ? excludeProtocols
+        : excludeProtocols.split(",");
+
+    const { includeDEXS, excludeDEXS } = constructQuery(
+        chainId,
+        includeProtocolsArray.join(","),
+        excludeProtocolsArray.join(",")
+    );
     //Get Header Config Data
     const { api_key, secret_key, passphrase, project } = swapData.headerData;
     const api_config = {
@@ -15,11 +38,20 @@ export async function buildQueryData(swapData) {
     //Get Content Data
     const getRequestPath = '/api/v5/dex/aggregator/quote';
     const getParams = {
-        chainId: swapData.chainId,
-        amount: swapData.amount,
-        toTokenAddress: swapData.toTokenAddress,
-        fromTokenAddress: swapData.fromTokenAddress,
+        chainId,
+        amount: amountIn,
+        toTokenAddress,
+        fromTokenAddress,
+        slippage
     };
+
+    if (includeDEXS) {
+        getParams.append("excludeProtocols", excludeDEXS);
+    }
+
+    if (excludeDEXS) {
+        getParams.append("excludeProtocols", excludeDEXS);
+    }
 
     const { signature, timestamp } = createSignature("GET", getRequestPath, getParams);
 
@@ -53,6 +85,21 @@ export async function buildQueryData(swapData) {
 
     const quaryHeaderData = {
         api_config, signature, timestamp
+    }
+
+    if (plan === "basic") {
+        quaryHeaderData.append("feePercent", (platformFeeBps / 100).toString); //convert from bps to percent
+        quaryHeaderData.append("referrerAddress", platformReferralWallet);
+
+        console.log(quaryHeaderData);
+    }
+
+    if (plan === "premium") {
+        if (partnerReferralWallet || partnerReferralFeeBps) {
+            quaryHeaderData.append("feePercent", (partnerReferralFeeBps / 100).toString);
+            quaryHeaderData.append("referrerAddress", partnerReferralWallet);
+            console.log(quaryHeaderData);
+        }
     }
 
     return quaryHeaderData;
