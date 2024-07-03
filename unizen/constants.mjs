@@ -385,3 +385,5 @@ export function constructQuery(chainId, includeProtocols, excludeProtocols) {
     excludeDEXS: excludeDEXS.join(","),
   };
 }
+
+export const BASE_DOMAIN = "https://api.zcx.com/trade/v1";

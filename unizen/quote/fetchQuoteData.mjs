@@ -1,7 +1,8 @@
 import { buildQueryParams } from "./buildQueryParams.mjs";
+import { BASE_DOMAIN } from "../constants.mjs";
 
 export async function fetchQuoteData(swapData) {
-  const baseUrl = `https://api.zcx.com/trade/v1/${swapData.chainId}/quote/single`;
+  const baseUrl = `${BASE_DOMAIN}/${swapData.chainId}/quote/single`;
   const params = await buildQueryParams(swapData);
   const completeUrl = `${baseUrl}?${params}`;
   const response = await fetch(completeUrl, {
