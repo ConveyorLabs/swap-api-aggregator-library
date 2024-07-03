@@ -10,8 +10,6 @@ export function formatSwapData(data, swapData) {
     10: "0xad1D43efCF92133A9a0f33e5936F5ca10f2b012E",
     8453: "0x4F68248ecB782647D1E5981a181bBe1bfFee1040"
   };
-
-  console.log(`value: ${data.tx.value}`);
   return {
     from: swapData.recipient,
     to: contractAddresses[swapData.chainId],

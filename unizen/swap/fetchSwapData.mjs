@@ -8,20 +8,23 @@ export async function fetchSwapData(swapData) {
     quotes: quoteData,
   });
 
-  const baseUrl = `https://api.zcx.com/trade/v1/${swapData.chainId}/swap`;
+  const baseUrl = `https://api.zcx.com/trade/v1/${swapData.chainId}/swap/single`;
+  console.log('body', body);
   const response = await fetch(`${baseUrl}`, {
-    body,
-    headers: {
-      Authorization: `Bearer ${swapData.unizenApiKey}`,
+    method: "POST",
+    body: JSON.stringify(body),
+    headers: { 
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${swapData.unizenApiKey}`
     },
   });
   if (!response.ok) {
     const errorText = await response.text(); // Read the response body
     console.error(
-      `Failed to fetch swap data from 1inch: ${response.statusText}`
+      `Failed to fetch swap data from unizen: ${response.statusText}`
     );
     console.error(`Error response: ${errorText}`);
-    throw new Error(`1inch API error: ${errorText}`);
+    throw new Error(`unizen API error: ${errorText}`);
   }
 
   const data = await response.json();

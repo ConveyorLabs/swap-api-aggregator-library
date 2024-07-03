@@ -32,9 +32,9 @@ export async function buildQueryParams(swapData) {
     disableEstimate: false
   });
 
-  if (excludeDEXS) {
-    params.append("excludedDexes", excludeDEXS);
-  }
+  // if (excludeDEXS) {
+  //   params.append("excludedDexes", excludeDEXS);
+  // }
 
   return params;
 }
