@@ -57,7 +57,6 @@ export async function buildQueryParams(swapData) {
     params.append("chargeFeeBy", "currency_in");
     params.append("feeReceiver", platformReferralWallet);
     params.append("isInBps", true);
-    console.log(params);
   }
 
   if (plan === "premium") {
@@ -66,7 +65,6 @@ export async function buildQueryParams(swapData) {
       params.append("chargeFeeBy", "currency_in");
       params.append("feeReceiver", partnerReferralWallet);
       params.append("isInBps", true);
-      console.log(params);
     }
   }
 

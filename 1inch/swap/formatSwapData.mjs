@@ -3,7 +3,6 @@ export function formatSwapData(data, swapData) {
     swapData.fromTokenAddress.toLowerCase() ===
     "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
 
-  console.log(`value: ${data.tx.value}`);
   return {
     from: data.tx.from,
     to: data.tx.to,

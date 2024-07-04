@@ -241,5 +241,3 @@ export function constructQuery(chainId, includeProtocols, excludeProtocols) {
     excludeDEXS: { [chainId]: excludeDEXS },
   };
 }
-
-export const BASE_DOMAIN = "https://api.zcx.com/trade/v1";

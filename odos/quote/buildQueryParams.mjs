@@ -88,9 +88,6 @@ export async function buildQueryParams(swapData) {
 
   if (plan == "basic") {
     params.referralCode = platformOdosReferralCode;
-    console.log(
-      `Odos fee implmented for basic plan. Referral code: ${params.referralCode}`
-    );
   }
 
   if (plan == "premium") {

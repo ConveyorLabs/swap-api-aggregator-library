@@ -18,7 +18,7 @@ export async function fetchSwapData(swapData) {
   }
 
   const data = await response.json();
-  console.dir(data, { depth: null });
+
   data.fromAmount = swapData.amountIn;
 
   return data;

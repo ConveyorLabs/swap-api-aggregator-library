@@ -9,7 +9,6 @@ export async function fetchQuoteData(swapData) {
     },
   });
 
-  console.log(`${baseUrl}?${params}`);
   if (!response.ok) {
     throw new Error(`Failed to fetch data from 1inch: ${response.statusText}`);
   }

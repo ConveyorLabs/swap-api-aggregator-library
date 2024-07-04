@@ -8,7 +8,7 @@ export async function buildQueryParams(swapData) {
     amountIn,
     slippage,
     includeProtocols = [],
-    excludeProtocols = []
+    excludeProtocols = [],
   } = swapData;
 
   const includeProtocolsArray = Array.isArray(includeProtocols)
@@ -28,11 +28,11 @@ export async function buildQueryParams(swapData) {
     fromTokenAddress,
     toTokenAddress,
     amount: amountIn,
-    slippage: (slippage / 100), // slippage is in %
-    disableEstimate: false
+    slippage: slippage / 100, // slippage is in %
+    disableEstimate: false,
   });
 
-  if (excludeDEXS) { 
+  if (excludeDEXS) {
     params.append("excludedDexes", JSON.stringify(excludeDEXS));
   }
 

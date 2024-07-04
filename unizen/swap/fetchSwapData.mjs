@@ -1,26 +1,24 @@
 import { buildQueryParams } from "./buildQueryParams.mjs";
 import { fetchQuoteData } from "../quote/fetchQuoteData.mjs";
-import { BASE_DOMAIN } from "../constants.mjs";
+import { unizenApiKey } from "../../../constants/apiKeys.mjs";
 
 export async function fetchSwapData(swapData) {
+  const baseUrl = "https://api.zcx.com/trade/v1";
   const quoteData = await fetchQuoteData(swapData);
-  const body = await buildQueryParams({
-    ...swapData,
-    quotes: quoteData,
-  });
+  const body = await buildQueryParams({ ...swapData, quotes: quoteData });
 
-  const baseUrl = `${BASE_DOMAIN}/${swapData.chainId}/swap/single`;
-  console.log('body', body);
-  const response = await fetch(`${baseUrl}`, {
+  const queryUrl = `${baseUrl}/${swapData.chainId}/swap/single`;
+  const response = await fetch(queryUrl, {
     method: "POST",
     body: JSON.stringify(body),
-    headers: { 
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${swapData.unizenApiKey}`
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${unizenApiKey}`,
     },
   });
+
   if (!response.ok) {
-    const errorText = await response.text(); // Read the response body
+    const errorText = await response.text();
     console.error(
       `Failed to fetch swap data from unizen: ${response.statusText}`
     );
@@ -28,19 +26,15 @@ export async function fetchSwapData(swapData) {
     throw new Error(`unizen API error: ${errorText}`);
   }
 
-  const baseUrlSpender = `${BASE_DOMAIN}/${swapData.chainId}/approval/spender?contractVersion=v1`;
-  console.log('baseUrlSpender', baseUrlSpender);
+  const baseUrlSpender = `${baseUrl}/${swapData.chainId}/approval/spender?contractVersion=v1`;
   const responseSpender = await fetch(baseUrlSpender, {
     headers: {
-      Authorization: `Bearer ${swapData.unizenApiKey}`
+      Authorization: `Bearer ${unizenApiKey}`,
     },
   });
-  const responseJson = await responseSpender.json();
-  console.log('responseSpender', responseSpender);
-  console.log('responseJson', responseJson);
 
+  const responseJson = await responseSpender.json();
   const data = await response.json();
-  console.dir(data, { depth: null });
   data.fromAmount = swapData.amountIn;
   data.spender = responseJson.address;
 
