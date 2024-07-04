@@ -11,7 +11,7 @@ const mockSwapData = {
   excludeProtocols: "uniswap-v3",
   fromTokenDecimals: 6,
   toTokenDecimals: 18,
-  unizenApiKey: "37d02d10-be09-4b62-b7fd-3bce73d943fe"
+  unizenApiKey: "set key here"
 };
 
 async function testQuote() {
