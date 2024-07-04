@@ -15,12 +15,12 @@ export const allAdapters = {
 };
 
 export const chainIdToAdapters = {
-  1: ["paraswap", "kyber", "oneInch", "zeroX", "odos", "openocean","unizen"],
-  56: ["paraswap", "kyber", "oneInch", "zeroX", "odos", "openocean","unizen"],
-  137: ["paraswap", "kyber", "oneInch", "zeroX", "odos", "openocean","unizen"],
-  42161: ["paraswap", "kyber", "oneInch", "zeroX", "odos", "openocean","unizen"],
-  10: ["paraswap", "kyber", "oneInch", "zeroX", "odos", "openocean","unizen"],
-  8453: ["paraswap", "kyber", "oneInch", "zeroX", "odos", "openocean","unizen"],
+  1: ["paraswap", "kyber", "oneInch", "zeroX", "odos", "openocean", "unizen"],
+  56: ["paraswap", "kyber", "oneInch", "zeroX", "odos", "openocean", "unizen"],
+  137: ["paraswap", "kyber", "oneInch", "zeroX", "odos", "openocean", "unizen"],
+  42161: ["paraswap", "kyber", "oneInch", "zeroX", "odos", "openocean", "unizen"],
+  10: ["paraswap", "kyber", "oneInch", "zeroX", "odos", "openocean", "unizen"],
+  8453: ["paraswap", "kyber", "oneInch", "zeroX", "odos", "openocean", "unizen"],
   43114: ["unizen"],
   250: ["unizen"],
 };
