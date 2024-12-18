@@ -1,3 +1,7 @@
+import {
+  platformFeeBps,
+  platformReferralWallet,
+} from "../../../constants/referrer.mjs";
 import { constructQuery } from "../constants.mjs";
 
 export async function buildQueryParams(swapData) {
@@ -9,6 +13,9 @@ export async function buildQueryParams(swapData) {
     slippage,
     includeProtocols = [],
     excludeProtocols = [],
+    plan,
+    partnerReferralWallet,
+    partnerReferralFeeBps,
   } = swapData;
 
   const includeProtocolsArray = Array.isArray(includeProtocols)
@@ -30,10 +37,23 @@ export async function buildQueryParams(swapData) {
     amount: amountIn,
     slippage: slippage / 100, // slippage is in %
     disableEstimate: false,
+    version: "v2",
   });
 
-  if (excludeDEXS) {
+  if (excludeDEXS && Object.keys(excludeDEXS).length > 0) {
     params.append("excludedDexes", JSON.stringify(excludeDEXS));
+  }
+
+  if (plan === "basic") {
+    params.append("feePercentage", `"${platformFeeBps / 100}"`);
+    params.append("feeReceiver", platformReferralWallet);
+  }
+
+  if (plan === "premium") {
+    if (partnerReferralWallet || partnerReferralFeeBps) {
+      params.append("feePercentage", `"${partnerReferralFeeBps / 100}"`);
+      params.append("feeReceiver", partnerReferralWallet);
+    }
   }
 
   return params;

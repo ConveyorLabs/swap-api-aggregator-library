@@ -1,16 +1,19 @@
 export async function buildQueryParams(swapData) {
-  const {
-    quotes,
-    recipient
-  } = swapData;
+  const { recipient, tradeType, transactionData, nativeValue } = swapData;
 
-  const bestQuote = quotes?.[0];
+  console.log("[Unizen] Building swap params:", {
+    recipient,
+    tradeType,
+    hasTransactionData: !!transactionData,
+  });
+
   const params = {
-    transactionData: bestQuote?.transactionData,
-    nativeValue: bestQuote?.nativeValue,
+    transactionData,
+    nativeValue,
     account: recipient,
     receiver: recipient,
-    tradeType: bestQuote.tradeType
-  }
+    tradeType,
+  };
+
   return params;
 }

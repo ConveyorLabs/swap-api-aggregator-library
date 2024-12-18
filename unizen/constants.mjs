@@ -207,6 +207,17 @@ export const supportedProtocols = {
   },
 };
 
+export const UNIZEN_ROUTER_ADDRESSES = {
+  1: "0xef58B643240178c2BC37681f8d4E50d7Ec37Ee22", // ethereum
+  56: "0x42479c390270cBa049A2D10F63bF75d9D0B7a742", // bsc
+  137: "0xef58B643240178c2BC37681f8d4E50d7Ec37Ee22", // polygon
+  43114: "0xef58B643240178c2BC37681f8d4E50d7Ec37Ee22", // avax
+  42161: "0xef58B643240178c2BC37681f8d4E50d7Ec37Ee22", // arbitrum
+  10: "0xef58B643240178c2BC37681f8d4E50d7Ec37Ee22", // optimism
+  8453: "0xef58B643240178c2BC37681f8d4E50d7Ec37Ee22", // base
+  250: "0xef58B643240178c2BC37681f8d4E50d7Ec37Ee22", // fantom
+};
+
 export function constructQuery(chainId, includeProtocols, excludeProtocols) {
   const allDEXS = supportedProtocols[chainId];
   let includeDEXS = [];

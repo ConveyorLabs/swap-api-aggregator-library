@@ -21,7 +21,10 @@ export async function fetchQuoteData(swapData) {
       );
     }
 
-    return await response.json();
+    const allQuotes = await response.json();
+    // Take only the first quote (best quote)
+    const bestQuote = Array.isArray(allQuotes) ? allQuotes[0] : allQuotes;
+    return bestQuote;
   } catch (error) {
     console.error(`Error fetching quote data: ${error.message}`);
     throw error;

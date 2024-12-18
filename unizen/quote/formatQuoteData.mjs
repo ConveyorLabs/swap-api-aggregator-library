@@ -1,11 +1,19 @@
 export function formatQuoteData(data, swapData, name) {
-  const bestQuote = data?.[0];
+  // If data is an array, use the first item, otherwise use the data object directly
+  const quote = Array.isArray(data) ? data[0] : data;
+
+  console.log("[Unizen] Formatting quote data:", {
+    hasData: !!quote,
+    toTokenAmount: quote?.toTokenAmount,
+    estimateGas: quote?.estimateGas,
+  });
+
   return {
     aggregator: name,
     tokenIn: swapData.fromTokenAddress,
     tokenOut: swapData.toTokenAddress,
     amountIn: swapData.amountIn,
-    amountOut: bestQuote?.toTokenAmount ?? "0",
-    gas: bestQuote?.estimateGas ?? "0",
+    amountOut: quote?.toTokenAmount ?? "0",
+    gas: quote?.estimateGas ?? "0",
   };
 }

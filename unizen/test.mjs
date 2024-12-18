@@ -1,16 +1,16 @@
 import adapter from "./index.mjs";
 
 const mockSwapData = {
-  toTokenAddress: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-  fromTokenAddress: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
-  amountIn: "1000000000000000000",
+  fromTokenAddress: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+  toTokenAddress: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+  amountIn: "1000000000",
   slippage: 1,
   chainId: 1,
   recipient: "0x92977D2552f455Bb9A3457AEbfCb78f1256Dd2e5",
   includeProtocols: "uniswap-v2,sushiswap",
   excludeProtocols: "uniswap-v3",
-  fromTokenDecimals: 18,
-  toTokenDecimals: 6,
+  fromTokenDecimals: 6,
+  toTokenDecimals: 18,
 };
 
 async function testQuote() {
