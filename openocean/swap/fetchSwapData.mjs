@@ -1,3 +1,4 @@
+// https://docs.openocean.finance/dev/aggregator-api-and-sdk/aggregator-api-v3#building-transaction-1
 import { openOceanApiKey } from "../../../constants/apiKeys.mjs";
 import { chainIdToName } from "../constants.mjs";
 import { buildQueryParams } from "./buildQueryParams.mjs";
@@ -8,7 +9,7 @@ export async function fetchSwapData(swapData) {
     throw new Error(`Unsupported chain ID: ${swapData.chainId}`);
   }
 
-  const baseUrl = `https://open-api.openocean.finance/v3/${chainName}/swap_quote`;
+  const baseUrl = `https://open-api-pro.openocean.finance/v3/${chainName}/swap_quote`;
   const params = await buildQueryParams(swapData);
   const url = `${baseUrl}?${params}`;
 
@@ -30,7 +31,8 @@ export async function fetchSwapData(swapData) {
   }
 
   const data = await response.json();
-  if (!data || !data.data || !data.data.outAmount) {
+
+  if (!data || !data.data) {
     throw new Error("Invalid response format from OpenOcean API");
   }
 

@@ -1,5 +1,4 @@
-//https://docs.openocean.finance/dev/aggregator-api-and-sdk/aggregator-api-v3#building-transaction-1
-
+// https://docs.openocean.finance/dev/aggregator-api-and-sdk/aggregator-api-v3#building-transaction-1
 import { constructQuery, tokenAddressToNativeToken } from "../constants.mjs";
 import fetchGasPrice from "../../../lib/fetchGasPrice.mjs";
 import { fetchTokenDecimals } from "../../../lib/fetchTokenDecimals.mjs";
@@ -51,7 +50,12 @@ export async function buildQueryParams(swapData) {
     rpcUrl,
   });
 
-  const gasPrice = await fetchGasPrice(chainId, rpcUrl);
+  let gasPrice;
+  try {
+    gasPrice = await fetchGasPrice(chainId, rpcUrl);
+  } catch (error) {
+    gasPrice = "1000000000"; // 1 gwei fallback
+  }
 
   const { includeDEXS, excludeDEXS } = constructQuery(
     chainId,
@@ -59,11 +63,17 @@ export async function buildQueryParams(swapData) {
     excludeProtocolsArray.join(",")
   );
 
+  // Format gas price correctly - ensure it's at least 1 gwei
+  const gasPriceInGwei = (Number(BigInt(gasPrice)) / 10 ** 9);
+  const formattedGasPrice = Math.max(1, gasPriceInGwei).toFixed(0);
+
+  const formattedAmount = (Number(amountIn) / 10 ** tokenDecimals.fromTokenDecimals).toString();
+
   const params = new URLSearchParams({
-    gasPrice: (Number(BigInt(gasPrice)) / 10 ** 9).toFixed(2).toString(),
+    gasPrice: formattedGasPrice,
     inTokenAddress: inTokenAddress,
     outTokenAddress: outTokenAddress,
-    amount: (amountIn / 10 ** tokenDecimals.fromTokenDecimals).toString(),
+    amount: formattedAmount,
     slippage,
     account: recipient,
   });

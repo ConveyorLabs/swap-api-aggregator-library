@@ -1,5 +1,6 @@
 import { buildQueryParams } from "./buildQueryParams.mjs";
 import { BASE_DOMAIN } from "../constants.mjs";
+import { unizenApiKey } from "../../../constants/apiKeys.mjs";
 
 export async function fetchQuoteData(swapData) {
   const baseUrl = `${BASE_DOMAIN}/${swapData.chainId}/quote/single`;
@@ -7,12 +8,14 @@ export async function fetchQuoteData(swapData) {
   const completeUrl = `${baseUrl}?${params}`;
   const response = await fetch(completeUrl, {
     headers: {
-      Authorization: `Bearer ${swapData.unizenApiKey}`,
+      Authorization: `Bearer ${unizenApiKey}`,
     },
   });
 
   if (!response.ok) {
-    throw new Error(`Failed to fetch data from unizen (${completeUrl}): ${response.statusText}`);
+    throw new Error(
+      `Failed to fetch data from unizen (${completeUrl}): ${response.statusText}`
+    );
   }
   const data = await response.json();
   return data;

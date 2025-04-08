@@ -1,3 +1,4 @@
+// https://docs.openocean.finance/dev/aggregator-api-and-sdk/aggregator-api-v3#quote-the-price-of-a-specific-trading-pair
 import { openOceanApiKey } from "../../../constants/apiKeys.mjs";
 import { chainIdToName } from "../constants.mjs";
 import { buildQueryParams } from "./buildQueryParams.mjs";
@@ -7,7 +8,9 @@ export async function fetchQuoteData(swapData) {
   const baseUrl = `https://open-api-pro.openocean.finance/v3/${chainName}/quote`;
   const params = await buildQueryParams(swapData);
 
-  const response = await fetch(`${baseUrl}?${params}`, {
+  const url = `${baseUrl}?${params}`;
+
+  const response = await fetch(url, {
     headers: {
       apikey: openOceanApiKey,
     },
@@ -26,9 +29,9 @@ export async function fetchQuoteData(swapData) {
 
   const data = await response.json();
 
-  if (!data || !data.data || !data.data.outAmount) {
+  if (!data || !data.data) {
     throw new Error("Invalid response format from OpenOcean API");
   }
-
+  
   return data;
 }

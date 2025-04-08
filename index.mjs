@@ -4,6 +4,7 @@ import oneInch from "./1inch/index.mjs";
 import zeroX from "./0x/index.mjs";
 import odos from "./odos/index.mjs";
 import openocean from "./openocean/index.mjs";
+import unizen from "./unizen/index.mjs";
 
 export const allAdapters = {
   paraswap,
@@ -12,6 +13,7 @@ export const allAdapters = {
   zeroX,
   odos,
   openocean,
+  unizen,
 };
 
 export const chainIdToAdapters = {

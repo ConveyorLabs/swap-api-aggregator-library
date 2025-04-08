@@ -1,6 +1,7 @@
 import { buildQueryParams } from "./buildQueryParams.mjs";
 import { fetchQuoteData } from "../quote/fetchQuoteData.mjs";
 import { BASE_DOMAIN } from "../constants.mjs";
+import { unizenApiKey } from "../../../constants/apiKeys.mjs";
 
 export async function fetchSwapData(swapData) {
   const quoteData = await fetchQuoteData(swapData);
@@ -10,13 +11,13 @@ export async function fetchSwapData(swapData) {
   });
 
   const baseUrl = `${BASE_DOMAIN}/${swapData.chainId}/swap/single`;
-  console.log('body', body);
+  console.log("body", body);
   const response = await fetch(`${baseUrl}`, {
     method: "POST",
     body: JSON.stringify(body),
-    headers: { 
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${swapData.unizenApiKey}`
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${unizenApiKey}`,
     },
   });
   if (!response.ok) {
@@ -29,15 +30,15 @@ export async function fetchSwapData(swapData) {
   }
 
   const baseUrlSpender = `${BASE_DOMAIN}/${swapData.chainId}/approval/spender?contractVersion=v1`;
-  console.log('baseUrlSpender', baseUrlSpender);
+  console.log("baseUrlSpender", baseUrlSpender);
   const responseSpender = await fetch(baseUrlSpender, {
     headers: {
-      Authorization: `Bearer ${swapData.unizenApiKey}`
+      Authorization: `Bearer ${swapData.unizenApiKey}`,
     },
   });
   const responseJson = await responseSpender.json();
-  console.log('responseSpender', responseSpender);
-  console.log('responseJson', responseJson);
+  console.log("responseSpender", responseSpender);
+  console.log("responseJson", responseJson);
 
   const data = await response.json();
   console.dir(data, { depth: null });

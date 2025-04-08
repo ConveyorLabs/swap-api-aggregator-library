@@ -7,6 +7,7 @@ export async function buildQueryParams(swapData) {
     chainId,
     amountIn,
     slippage,
+    recipient,
     includeProtocols = [],
     excludeProtocols = []
   } = swapData;
@@ -29,7 +30,8 @@ export async function buildQueryParams(swapData) {
     toTokenAddress,
     amount: amountIn,
     slippage: (slippage / 100), // slippage is in %
-    disableEstimate: false
+    disableEstimate: false,
+    sender: recipient // Use recipient as sender address
   });
 
   if (excludeDEXS) { 

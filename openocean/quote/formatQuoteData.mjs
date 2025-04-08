@@ -1,8 +1,8 @@
 export function formatQuoteData(data, swapData, protocol) {
   return {
     aggregator: protocol,
-    tokenIn: data.data.inToken.address,
-    tokenOut: data.data.outToken.address,
+    tokenIn: swapData.fromTokenAddress,
+    tokenOut: swapData.toTokenAddress,
     amountIn: swapData.amountIn,
     amountOut: data.data.outAmount,
     gas: data.data.estimatedGas,
