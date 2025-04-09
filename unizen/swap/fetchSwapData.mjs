@@ -33,7 +33,7 @@ export async function fetchSwapData(swapData) {
   console.log("baseUrlSpender", baseUrlSpender);
   const responseSpender = await fetch(baseUrlSpender, {
     headers: {
-      Authorization: `Bearer ${swapData.unizenApiKey}`,
+      Authorization: `Bearer ${unizenApiKey}`,
     },
   });
   const responseJson = await responseSpender.json();

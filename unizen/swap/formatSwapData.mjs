@@ -1,10 +1,14 @@
 export function formatSwapData(data, swapData) {
+  const isETH =
+    swapData.fromTokenAddress.toLowerCase() ===
+    "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
+
   return {
     from: swapData.recipient,
     to: data.spender,
-    value: data.nativeValue,
+    value: isETH ? data.nativeValue : "0",
     data: data.data,
-    gas: data.estimateGas,
+    gas: parseInt(data.estimateGas),
     chainId: swapData.chainId,
   };
 }
